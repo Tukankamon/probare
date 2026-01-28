@@ -53,14 +53,14 @@ extra-doc-files:    CHANGELOG.md
 
 common warnings
     --Add -Wall if needed
-    ghc-options: 
+    ghc-options: -Wall
 
 library
     -- Import common warning flags.
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  Types, Logic, IntAxioms
+    exposed-modules:  Types, Logic, IntAxioms, Eval
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -126,4 +126,5 @@ test-suite proof-test
     -- Test dependencies.
     build-depends:
         base ^>=4.20.2.0,
+        HUnit ^>=1.6,
         proof
