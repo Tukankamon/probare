@@ -1,5 +1,40 @@
 # Under construction
 
+This program evaluates a logical statement and returns either True or False
+The following are the allowed Logical operations for propositions p and q:
+```
+p :-> q -- p implies q
+Not p -- ~p
+And p q -- p && q
+Or p q -- p || q
+```
+
+Each proposition type contains a variable "a" that is used to diferentiate them and later calculate their truth values
+
+There also exists a proposition type called atom
+Each "Atom" is a proposition that we hardcode a truth value two with the function:
+```haskell
+v :: Int -> Bool
+-- These two are permanent
+v 0 = False
+v 1 = True
+
+v 2 = False
+v 3 = True
+v _ = False -- Catch all, could make this a Nothing
+```
+
+And later on you can use these as "Axiom n" directly or give them a name
+```haskell
+-- If x = Atom i = y then x = y in every evaluation
+p, q, r :: Proposition Int
+p = Atom 1
+q = Atom 2
+r = Atom 3
+```
+
+Here is an example with a bunch of logical statements
+
 ```haskell
 main :: IO()
 main = do
