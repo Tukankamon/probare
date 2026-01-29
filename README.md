@@ -47,7 +47,23 @@ main = do
   print $ eval v $ p :-> q -- Only false if ~q and p
   print $ eval v $ Not $ Not $ p -- Double Negation returns p
   print $ eval v $ Or (Not p) p -- True or False = True
+
 ```
+Returns the following:
+```
+These are the assigned values of the propositions
+p: True
+q: False
+r: True
+
+
+True
+True
+False
+True
+True
+```
+
 
 # TODO
 - [ ] Write tests for:
@@ -56,4 +72,5 @@ main = do
 - [ ] Parse through text to make the input easier
 - [ ] Properly package with nix and not depend on the cabal file
 - [ ] Add forall and exists quantifiers
+- [ ] Add way to check if a proposition follows from the arguments (eval doesnt do it)
 
