@@ -22,6 +22,6 @@
 
       # Proof.hs
       packages."x86_64-linux".default =
-        hpkgs.callCabal2nix "proof" ./proof {};
+        hpkgs.callCabal2nix "proof" ./. {};
     };
 }

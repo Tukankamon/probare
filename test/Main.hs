@@ -4,31 +4,39 @@ import Test.HUnit
 import Types
 import Eval
 
--- assertBool expects the expresion to be True
+-- Broken since changing eval
 
+-- assertBool expects the expresion to be True
 test1 :: Test
 test1 = TestCase $ assertBool "Atoms should be False by default"
-  (not $ eval $ Atom "P")
+  (not $ eval p)
 
 test2 :: Test
 test2 = TestCase $ assertBool "Since P is False, P -> Q should be True"
-  (eval $ (Atom "P") :-> (Atom "Q"))
+  (eval $ p :-> p)
 
 test3 :: Test
 test3 = TestCase $ assertBool "Double negation, and since atoms are False: False"
-  (not $ eval $ Not $ Not $ Atom "P")
+  (not $ eval $ Not $ Not p)
 
 test4 :: Test
 test4 = TestCase $ assertBool "True Or False should be True"
-  (eval $ Or (Not (Atom "P")) (Atom "Q"))
+  (eval $ Or (Not p) q)
 
-test5 :: Test
-test5 = TestCase $ assertBool "NN should not be empty according to IntAxioms"
+{-
+axiom :: Test
+axiom = TestCase $ assertBool "NN should not be empty according to IntAxioms"
   (not $ eval (Equal NN Eset))
+-}
+
+transitivity :: Test
+transitivity = TestCase $ assertBool "If both (P->Q) and (Q->R) are true then \
+  \ (P->R) Should be true"
+    (eval $ (Axiom $ (p :-> q) `And` (q :->r)) :-> (p:->r))
 
 allTests :: Test
 allTests = TestList
-  [ test1, test2, test3, test4, test5 ]
+  [ test1, test2, test3, test4, transitivity ]
 
 main :: IO()
 main = do

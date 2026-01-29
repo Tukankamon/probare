@@ -1,11 +1,17 @@
 # Under construction
 
 ```haskell
-  print $ eval example -- True since P -> P for all P
-  print $ eval (Atom "P") -- False, no axiom says P is true here
-  print $ eval $ (Atom "P") :-> (Atom "Q") -- Since P is False, P -> Q is true
-  print $ eval $ Not $ Not $ Atom "P" -- Double Negation, False
-  print $ eval $ Or (Not (Atom "P")) (Atom "Q") -- True or False = True
+main :: IO()
+main = do
+  putStrLn "These are the assigned values of the propositions"
+  mapM_ (\(name, prop) -> putStrLn $ name ++ ": " ++ show (eval v prop)) listProps
+  putStrLn "\n"
+
+  print $ eval v (p :-> p) -- True since P -> P for all P
+  print $ eval v p -- Returns the value of p
+  print $ eval v $ p :-> q -- Only false if ~q and p
+  print $ eval v $ Not $ Not $ p -- Double Negation returns p
+  print $ eval v $ Or (Not p) p -- True or False = True
 ```
 
 # TODO
