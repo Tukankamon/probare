@@ -13,15 +13,15 @@ Each proposition type contains a variable "a" that is used to diferentiate them 
 
 There also exists a proposition type called atom
 Each "Atom" is a proposition that we hardcode a truth value two with the function:
+(It is currently set for even = True, odd = False for developer convenience)
 ```haskell
 v :: Int -> Bool
 -- These two are permanent
 v 0 = False
 v 1 = True
-
-v 2 = False
-v 3 = True
-v _ = False -- Catch all, could make this a Nothing
+v n
+  | n `mod` 2 == 0 = False
+  | otherwise = True
 ```
 
 And later on you can use these as "Axiom n" directly or give them a name
@@ -34,7 +34,6 @@ r = Atom 3
 ```
 
 Here is an example with a bunch of logical statements
-
 ```haskell
 main :: IO()
 main = do
@@ -49,6 +48,7 @@ main = do
   print $ eval v $ Or (Not p) p -- True or False = True
 
 ```
+
 Returns the following:
 ```
 These are the assigned values of the propositions
@@ -64,6 +64,27 @@ True
 True
 ```
 
+The follows function however returns if the proposition follows from the premises
+It does not care about its value from v but because of the definition of proposition
+they still need to be defined with a variable value
+```haskell
+-- These propositions dont care what value they are assigned by v
+-- This just checks through modus ponens
+putStrLn "\nDoes X follow from P? (Should be True):"
+print $ follows [p] p
+
+putStrLn "\nDoes P follow from (Q->P), Q?"
+print $ follows [(q:->p),q] p
+```
+
+Will output:
+```
+Does P follow from P? (Should be True):
+True
+
+Does P follow from (Q->P), Q?
+True
+```
 
 # TODO
 - [ ] Write tests for:
@@ -72,5 +93,6 @@ True
 - [ ] Parse through text to make the input easier
 - [ ] Properly package with nix and not depend on the cabal file
 - [ ] Add forall and exists quantifiers
-- [ ] Add way to check if a proposition follows from the arguments (eval doesnt do it)
+- [x] Add way to check if a proposition follows from the arguments (eval doesnt do it)
+- [ ] Make the eval function better so it can return p when v p is undefined
 

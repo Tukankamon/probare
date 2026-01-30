@@ -4,18 +4,9 @@ module Main where
 import Types
 import Eval
 
--- Setting truth values to propositions, the numbers will be associated later
-v :: Int -> Bool
--- These two are permanent
-v 0 = False
-v 1 = True
-
-v 2 = False
-v 3 = True
-v _ = False -- Catch all, could make this a Nothing
-
 -- This makes a an Int type
 -- If x = Atom i = y then x = y in every evaluation
+-- Mind that even numbers are true, odds are false
 p, q, r :: Proposition Int
 p = Atom 1
 q = Atom 2
@@ -36,3 +27,9 @@ main = do
   print $ eval v $ p :-> q -- Only false if ~q and p
   print $ eval v $ Not $ Not $ p -- Double Negation returns p
   print $ eval v $ Or (Not p) p -- True or False = True
+
+  putStrLn "\nDoes P follow from P? (Should be True):"
+  print $ follows [p] p
+  
+  putStrLn "\nDoes P follow from (Q->P), Q?"
+  print $ follows [(q:->p),q] p
