@@ -4,16 +4,6 @@ import Test.HUnit
 import Types
 import Eval
 
--- Copied from main
-v :: Int -> Bool
--- These two are permanent
-v 0 = False
-v 1 = True
-
-v 2 = False
-v 3 = True
-v _ = False -- Catch all, could make this a Nothing
-
 -- This makes a an Int type
 -- If x = Atom i = y then x = y in every evaluation
 p, q, r :: Proposition Int
