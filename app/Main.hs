@@ -36,3 +36,6 @@ main = do
   putStrLn "\nFrom (P->Q), (Q->R) does it follow that R (1) and (P->R) (2)?"
   print $ follows [(p:->q), (q:->r), p] r -- Transitivity
   print $ follows [(p:->q), (q:->r)] (p:->r) -- Should be true
+
+  putStrLn "\nChecks if P contradicts with Not P"
+  print $ contradicts [p, (Not p)]
