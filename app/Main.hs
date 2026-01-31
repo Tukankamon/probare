@@ -33,3 +33,4 @@ main = do
   
   putStrLn "\nDoes P follow from (Q->P), Q?"
   print $ follows [(q:->p),q] p
+  print $ follows [(p:->q), (q:->r), p] r -- Transitivity

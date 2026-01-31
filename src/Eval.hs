@@ -7,11 +7,11 @@ import Types
 -- This is not used however for stuff like P and (P:->Q) :-> Q
 -- That is what follows is for
 eval :: (a -> Bool) -> Proposition a -> Bool
-eval f (Atom x) = v x
-eval f (Not p) = not (eval v p)
-eval f (p `And` q) = eval v p && eval v q
-eval f (p `Or` q) = eval v p || eval v q
-eval f (p :-> q) = not (eval v p) || eval v q
+eval f (Atom x) = f x
+eval f (Not p) = not (eval f p)
+eval f (p `And` q) = eval f p && eval f q
+eval f (p `Or` q) = eval f p || eval f q
+eval f (p :-> q) = not (eval f p) || eval f q
 eval f _ = False -- Just in case
 
 -- Checks to see if a proposition is true if the list
