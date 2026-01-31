@@ -20,7 +20,6 @@ main :: IO()
 main = do
   putStrLn "These are the assigned values of the propositions"
   mapM_ (\(name, prop) -> putStrLn $ name ++ ": " ++ show (eval v prop)) listProps
-  putStrLn "\n"
 
   print $ eval v (p :-> p) -- True since P -> P for all P
   print $ eval v p -- Returns the value of p
@@ -33,4 +32,7 @@ main = do
   
   putStrLn "\nDoes P follow from (Q->P), Q?"
   print $ follows [(q:->p),q] p
+
+  putStrLn "\nFrom (P->Q), (Q->R) does it follow that R (1) and (P->R) (2)?"
   print $ follows [(p:->q), (q:->r), p] r -- Transitivity
+  print $ follows [(p:->q), (q:->r)] (p:->r) -- Should be true

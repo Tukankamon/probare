@@ -21,8 +21,13 @@ eval f _ = False -- Just in case
 -- If for example you want to show that Q follows from P->Q
 -- Your premises need to be: [P, (P:->Q)]. Not having P will make it false
 follows :: Eq a => [Proposition a] -> Proposition a -> Bool
+follows premises (Or p q) = follows premises p || follows premises q
+follows premises (And p q) = follows premises p && follows premises q
+follows premises (p :-> q) = follows (p : premises) q --To allow transitivity
 follows premises p
   | p `elem` premises = True -- P follows from P
+  | (Not p) `elem` premises = False
+  -- Modus ponens
   | otherwise = or [ follows premises antecedent
                 | (antecedent :-> consequent) <- premises --take only the implications
                 -- Filters only those that are (X:->P) and evaluates follow on them
