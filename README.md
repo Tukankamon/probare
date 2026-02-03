@@ -95,4 +95,5 @@ True
 - [ ] Add forall and exists quantifiers
 - [x] Add way to check if a proposition follows from the arguments (eval doesnt do it)
 - [ ] Make the eval function better so it can return p when v p is undefined
+    - [ ] Make it also not dependant on a so I can remove it from the type definition. Rather assign each proposition a string like "p" in main
 
