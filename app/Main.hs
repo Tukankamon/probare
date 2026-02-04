@@ -3,14 +3,12 @@ module Main where
 
 import Types
 import Eval
+import Parser
 
--- This makes a an Int type
--- If x = Atom i = y then x = y in every evaluation
--- Mind that even numbers are true, odds are false
 p, q, r :: Proposition
-p = Atom 1
-q = Atom 2
-r = Atom 3
+p = Atom "p"
+q = Atom "q"
+r = Atom "r"
 
 -- Find better way to do this
 listProps :: [ (String, Proposition) ]
@@ -43,3 +41,8 @@ main = do
   print $ contradicts [p, Not p]
   putStrLn "\nChecks if P contradicts with P"
   print $ contradicts [p, p]
+
+  putStrLn "\n parseString, does p->q follow from p->r and r->q? (Input is a string)"
+  case parseString "p->q" of
+    Left err -> putStrLn ("Parse error: "++ show err)
+    Right prop -> print $ follows prop [p:->r, r:->q]

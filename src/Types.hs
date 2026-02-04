@@ -2,7 +2,7 @@
 module Types where
 
 data Proposition -- Any type for the variable x in P(x)
-  = Atom Int -- Propositions like P(x) (just that), useful for placeholders
+  = Atom String -- Propositions like P(x) (just that), useful for placeholders
   -- Colon needed to infix it
   | (:->) Proposition Proposition
   | Iff Proposition Proposition -- If and only if

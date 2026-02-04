@@ -6,9 +6,9 @@ import Eval
 
 -- If x = Atom i = y then x = y in every evaluation
 p, q, r :: Proposition
-p = Atom 1
-q = Atom 2
-r = Atom 3
+p = Atom "p"
+q = Atom "q"
+r = Atom "r"
 
 {-
 -- assertBool expects the expresion to be True

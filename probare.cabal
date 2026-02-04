@@ -60,7 +60,7 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  Types, Eval
+    exposed-modules:  Types, Eval, Parser
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -69,7 +69,9 @@ library
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:    base ^>=4.20.2.0
+    build-depends:
+      base ^>=4.20.2.0,
+      parsec >=3.1
 
     -- Directories containing source files.
     hs-source-dirs:   src
@@ -93,6 +95,7 @@ executable probare
     -- Other library packages from which modules are imported.
     build-depends:
         base ^>=4.20.2.0,
+        parsec >=3.1,
         probare
 
     -- Directories containing source files.
