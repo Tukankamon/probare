@@ -71,10 +71,10 @@ they still need to be defined with a variable value
 -- These propositions dont care what value they are assigned by v
 -- This just checks through modus ponens
 putStrLn "\nDoes X follow from P? (Should be True):"
-print $ follows [p] p
+print $ follows p [p]
 
 putStrLn "\nDoes P follow from (Q->P), Q?"
-print $ follows [(q:->p),q] p
+print $ follows p [(q:->p),q]
 ```
 
 Will output:

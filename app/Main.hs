@@ -28,14 +28,14 @@ main = do
   print $ eval v $ Or (Not p) p -- True or False = True
 
   putStrLn "\nDoes P follow from P? (Should be True):"
-  print $ follows [p] p
+  print $ follows p [p]
   
   putStrLn "\nDoes P follow from (Q->P), Q?"
-  print $ follows [(q:->p),q] p
+  print $ follows p [(q:->p),q]
 
-  putStrLn "\nFrom (P->Q), (Q->R) does it follow that R (1) and (P->R) (2)?"
-  print $ follows [(p:->q), (q:->r), p] r -- Transitivity
-  print $ follows [(p:->q), (q:->r)] (p:->r) -- Should be true
+  putStrLn "\nFrom P, (P->Q), (Q->R) does it follow that R (1) and (P->R) (2)?"
+  print $ follows r [(p:->q), (q:->r), p] -- Transitivity
+  print $ follows (p:->r) [(p:->q), (q:->r)] -- Should be true
 
   putStrLn "\nChecks if P contradicts with Not P"
   print $ contradicts [p, (Not p)]
