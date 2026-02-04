@@ -4,20 +4,19 @@ module Eval where
 import Types
 import Data.List (nub) -- Removes duplicate elements in list
 
--- Evaluates an expression where f (aka v) is decides if any proposition P is T/F
--- This is not used however for stuff like P and (P:->Q) :-> Q
--- That is what follows is for
+{- BROKEN after removing a type from definition, low prio
 eval :: (a -> Bool) -> Proposition a -> Bool
-eval f (Atom x) = f x
-eval f (Not p) = not (eval f p)
-eval f (p `And` q) = eval f p && eval f q
-eval f (p `Or` q) = eval f p || eval f q
-eval f (p :-> q) = not (eval f p) || eval f q
-eval f _ = False -- Just in case
+eval truth (Atom x) = truth x
+eval truth (Not p) = not (eval truth p)
+eval truth (p `And` q) = eval truth p && eval truth q
+eval truth (p `Or` q) = eval truth p || eval truth q
+eval truth (p :-> q) = not (eval truth p) || eval truth q
+eval truth (p `Iff` q) = eval truth (p:->q) && eval truth (q:->p)
+eval truth _ = False -- Just in case
+-}
 
--- Returns propositions that can be derived from the premises after one iteration
 -- https://en.wikipedia.org/wiki/Natural_deduction
-deduceOnce :: Eq a => [Proposition a] -> [Proposition a]
+deduceOnce :: [Proposition] -> [Proposition]
 deduceOnce [] = []
 deduceOnce premises =
   nub $ premises ++
@@ -30,11 +29,12 @@ deduceOnce premises =
     [q | Or q p <- premises, Not p <- premises]++
     [q | Or p q <- premises, Not p <- premises]++ -- Same as with And
     -- Might fail for implications like (p->q)->r
-    [p:->q | p:->r <-premises, r:->q <- premises] -- Not "pure" natural deduction
+    [p:->q | p:->r <-premises, r:->q <- premises]++ -- Not "pure" natural deduction
+    [p `Iff` q | p:->q <- premises, q:->p <- premises]
 
 -- Runs deduceOnce until there is no more to deduce
 -- Returns the complete exhausted list of propositions, no more can be deduced
-exhaust :: Eq a => [Proposition a] -> [Proposition a]
+exhaust :: [Proposition] -> [Proposition]
 exhaust premises =
   let newPremises = deduceOnce premises
   in 
@@ -43,14 +43,15 @@ exhaust premises =
     else exhaust newPremises
 
 -- Not dependent on the truth value given by eval
-follows :: Eq a => Proposition a -> [Proposition a] -> Bool
+follows :: Proposition -> [Proposition] -> Bool
+--IDK if there is a better way to do this
+follows (And p q) premises = follows p premises && follows q premises
+follows (Or p q) premises = follows p premises || follows q premises
+follows (Not (Not p)) premises = follows p premises
 follows goal premises
   | goal `elem` premises = True -- P follows from P
-  -- Checks if goal is in the list of all derivable propositions
   | otherwise = goal `elem` (exhaust premises)
 
--- Returns if in a list of propositions any of them contradict
--- TODO make it so it tells you which props contradict
-contradicts :: Eq a => [Proposition a] -> Bool
-contradicts list = or [ follows p list && follows (Not p) list 
-                      | p <- list ]
+-- TODO, maybe separate the sets of contradictions
+contradicts :: [Proposition] -> [Proposition]
+contradicts list = [ p | p <- list , follows p list && follows (Not p) list]

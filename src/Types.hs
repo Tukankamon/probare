@@ -1,16 +1,17 @@
 -- Types.hs
 module Types where
---import Data.Ratio -- For the module operator
 
-data Proposition a -- Any type for the variable x in P(x)
-  = Atom a -- Propositions like P(x) (just that), useful for placeholders
-  -- Colon needed bc -> is already a keyword in haskell
-  | (:->) (Proposition a) (Proposition a)
-  | And (Proposition a) (Proposition a)
-  | Or (Proposition a) (Proposition a)
-  | Not (Proposition a)
+data Proposition -- Any type for the variable x in P(x)
+  = Atom Int -- Propositions like P(x) (just that), useful for placeholders
+  -- Colon needed to infix it
+  | (:->) Proposition Proposition
+  | Iff Proposition Proposition -- If and only if
+  | And Proposition Proposition
+  | Or Proposition Proposition 
+  | Not Proposition
   deriving (Eq, Show)
 infixr 1 :->   -- right-associative, low precedence
+infixr 1 `Iff`
 
 -- Setting truth values to propositions, the numbers will be associated later
 -- Set this way so you always know if the proposition will be true or false
